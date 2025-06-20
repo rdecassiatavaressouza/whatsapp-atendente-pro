@@ -19,13 +19,4 @@
     "node": "18.x"
   }
 }
-{
-  "scripts": {
-    "start": "node bot/server.js",
-    "dev": "nodemon bot/server.js"
-  },
-  "engines": {
-    "node": "18.x"
-  }
-  // ... existing code ...
-}
+
