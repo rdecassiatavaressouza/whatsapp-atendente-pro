@@ -248,4 +248,12 @@ async function start() {
   client.initialize();
 }
 
+// ... existing code ...
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Servidor rodando na porta ${PORT}`);
+});
+// ... existing code ...
+
 start().catch(console.error);
