@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - WhatsApp IPTV Bot</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .header h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #e8f5e8;
+            color: #2e7d32;
+            border-radius: 20px;
+            font-weight: 600;
+            margin: 10px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .card h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        
+        .conversation-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            border-left: 3px solid #667eea;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .conversation-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .conversation-message {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .conversation-time {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .refresh-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .refresh-btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 16px;
+        }
+        
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 WhatsApp IPTV Bot - Dashboard</h1>
+            <div class="status" id="status">🔄 Carregando...</div>
+            <br>
+            <button class="refresh-btn" onclick="loadData()">🔄 Atualizar Dados</button>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h3>📊 Estatísticas</h3>
+                <div class="stats-grid" id="stats">
+                    <div class="loading">Carregando estatísticas...</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>💬 Conversas Recentes</h3>
+                <div id="conversations">
+                    <div class="loading">Carregando conversas...</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>👥 Clientes</h3>
+                <div id="customers">
+                    <div class="loading">Carregando clientes...</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🚀 Sistema</h3>
+                <div style="padding: 20px; text-align: center;">
+                    <p style="margin-bottom: 15px;">✅ Bot WhatsApp Ativo</p>
+                    <p style="margin-bottom: 15px;">✅ Dashboard Online</p>
+                    <p style="margin-bottom: 15px;">✅ Banco PostgreSQL</p>
+                    <p style="margin-bottom: 15px;">✅ IA DeepSeek</p>
+                    <a href="/qr" style="background: #25D366; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin-top: 10px;">📱 Ver QR Code</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function loadData() {
+            try {
+                document.getElementById('status').textContent = '🔄 Atualizando...';
+                
+                // Carregar conversas
+                const conversationsRes = await fetch('/api/conversations');
+                const conversations = await conversationsRes.json();
+                
+                const conversationsHtml = conversations.slice(0, 10).map(conv => `
+                    <div class="conversation-item">
+                        <div class="conversation-name">${conv.name || 'Cliente'}</div>
+                        <div class="conversation-message">${conv.message.substring(0, 100)}${conv.message.length > 100 ? '...' : ''}</div>
+                        <div class="conversation-time">${new Date(conv.timestamp).toLocaleString('pt-BR')}</div>
+                    </div>
+                `).join('');
+                
+                document.getElementById('conversations').innerHTML = conversationsHtml || '<div class="loading">Nenhuma conversa ainda</div>';
+                
+                // Carregar clientes
+                const customersRes = await fetch('/api/customers');
+                const customers = await customersRes.json();
+                
+                const customersHtml = customers.slice(0, 10).map(customer => `
+                    <div class="conversation-item">
+                        <div class="conversation-name">${customer.name || 'Nome não informado'}</div>
+                        <div class="conversation-message">📱 ${customer.phone}</div>
+                        <div class="conversation-time">Status: ${customer.status} | ${new Date(customer.created_at).toLocaleString('pt-BR')}</div>
+                    </div>
+                `).join('');
+                
+                document.getElementById('customers').innerHTML = customersHtml || '<div class="loading">Nenhum cliente ainda</div>';
+                
+                // Estatísticas
+                document.getElementById('stats').innerHTML = `
+                    <div class="stat-item">
+                        <div class="stat-number">${conversations.length}</div>
+                        <div class="stat-label">Conversas</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">${customers.length}</div>
+                        <div class="stat-label">Clientes</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">${conversations.filter(c => c.is_from_bot).length}</div>
+                        <div class="stat-label">Bot Respostas</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Uptime</div>
+                    </div>
+                `;
+                
+                document.getElementById('status').textContent = '✅ Online';
+                
+            } catch (error) {
+                console.error('Erro:', error);
+                document.getElementById('status').textContent = '❌ Erro ao carregar';
+            }
+        }
+
+        // Carregar dados ao iniciar
+        loadData();
+        
+        // Atualizar a cada 30 segundos
+        setInterval(loadData, 30000);
+    </script>
+</body>
+</html>
