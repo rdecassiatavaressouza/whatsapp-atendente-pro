@@ -1,0 +1,12 @@
+# Criar pasta local
+mkdir whatsapp-atendente-pro
+cd whatsapp-atendente-pro
+
+# Inicializar git
+git init
+git add .
+git commit -m "Sistema completo WhatsApp + Dashboard"
+
+# Conectar com GitHub (substitua por seu usuário)
+git remote add origin https://github.com/SEU-USUARIO/whatsapp-atendente-pro.git
+git push -u origin main
