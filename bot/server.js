@@ -114,7 +114,7 @@ INFORMAÇÕES:
 - Planos 1 tela: 1 mês R$40, 3 meses R$105, 6 meses R$200, 12 meses R$380
 - Planos 2 telas: 1 mês R$70, 3 meses R$180, 6 meses R$330, 12 meses R$600
 - Teste grátis: 6 horas disponível
-- Pagamento: PIX (5% desconto), cartão, transferência
+- Pagamento: PIX, cartão, transferência
 
 Cliente ${customerName} disse: "${message}"
 
