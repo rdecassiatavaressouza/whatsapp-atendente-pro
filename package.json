@@ -20,7 +20,6 @@
   }
 }
 {
-  // ... existing code ...
   "scripts": {
     "start": "node bot/server.js",
     "dev": "nodemon bot/server.js"
