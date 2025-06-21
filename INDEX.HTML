@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Atendente Pro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 WhatsApp Atendente Pro</h1>
+        
+        <div class="status">
+            <h2>Status do Bot</h2>
+            <div id="status" class="status-offline">Configurando...</div>
+        </div>
+
+        <div class="messages">
+            <h2>Últimas Mensagens</h2>
+            <div id="messagesList">
+                <p>Carregando mensagens...</p>
+            </div>
+        </div>
+
+        <div class="config">
+            <h2>Configuração WhatsApp Business API</h2>
+            <p>Para conectar o WhatsApp, você precisará:</p>
+            <ol>
+                <li>Conta WhatsApp Business</li>
+                <li>Token de acesso da API</li>
+                <li>Webhook configurado</li>
+            </ol>
+            <button onclick="testConnection()">Testar Conexão</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
