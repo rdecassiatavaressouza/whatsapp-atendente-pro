@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 WhatsApp Atendente Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fab fa-whatsapp"></i> WhatsApp Atendente Pro</h1>
+            <p>Sistema de Atendimento Automatizado com IA</p>
+        </header>
+
+        <div class="dashboard">
+            <div class="card status-card">
+                <h2><i class="fas fa-heartbeat"></i> Status do Sistema</h2>
+                <div id="status" class="status-loading">
+                    <i class="fas fa-spinner fa-spin"></i> Verificando...
+                </div>
+                <div id="statusDetails"></div>
+            </div>
+
+            <div class="card stats-card">
+                <h2><i class="fas fa-chart-bar"></i> Estatísticas</h2>
+                <div class="stats-grid">
+                    <div class="stat">
+                        <span class="stat-number" id="totalMessages">-</span>
+                        <span class="stat-label">Total de Mensagens</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="uptime">-</span>
+                        <span class="stat-label">Tempo Online</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card messages-card">
+                <h2><i class="fas fa-comments"></i> Últimas Conversas</h2>
+                <div id="messagesList" class="messages-list">
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i> Carregando mensagens...
+                    </div>
+                </div>
+                <button onclick="loadMessages()" class="refresh-btn">
+                    <i class="fas fa-sync-alt"></i> Atualizar
+                </button>
+            </div>
+
+            <div class="card config-card">
+                <h2><i class="fas fa-cog"></i> Configuração WhatsApp</h2>
+                <div class="config-steps">
+                    <div class="step">
+                        <i class="fas fa-check-circle"></i>
+                        <span>1. Sistema Vercel configurado</span>
+                    </div>
+                    <div class="step pending">
+                        <i class="fas fa-clock"></i>
+                        <span>2. WhatsApp Business API</span>
+                    </div>
+                    <div class="step pending">
+                        <i class="fas fa-clock"></i>
+                        <span>3. Webhook conectado</span>
+                    </div>
+                </div>
+                
+                <div class="test-section">
+                    <h3>Teste de Integração</h3>
+                    <div class="test-form">
+                        <input type="text" id="testPhone" placeholder="5511999999999" />
+                        <input type="text" id="testMessage" placeholder="Mensagem de teste" />
+                        <button onclick="testWebhook()" class="test-btn">
+                            <i class="fas fa-paper-plane"></i> Testar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>🚀 Powered by Vercel + DeepSeek AI</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
